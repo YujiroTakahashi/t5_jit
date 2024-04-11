@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  shell:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: croco/t5jit:latest
+    working_dir: "/opt/t5"
+    environment:
+      - "LANG=ja_JP.UTF-8"
+      - "LANGUAGE=ja"
+    volumes:
+      - $PWD/opt:/opt/t5
+      - /opt/model:/opt/model
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    tty: true
